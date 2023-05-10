@@ -2,18 +2,19 @@ import { StatusBar } from 'expo-status-bar';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import HomeScreen from './src/view/screens/HomeScreen';
 import SplashScreen from './src/view/screens/SplashScreen';
-import FlightSearchScreen from './src/view/screens/FlightSearchScreen';
+import OnBoardScreen from './src/view/screens/OnBoardScreen';
+import BookingDetailsInputScreen from './src/view/screens/BookingDetailsInputScreen';
 
 export default function App() {
     return (
         <View style={styles.appContainer}>
             <StatusBar
                 hidden={false}
-                backgroundColor="#675b30"
+                backgroundColor="transparent"
                 barStyle="dark-content"
                 translucent={true}
             />
-            <FlightSearchScreen></FlightSearchScreen>
+            <BookingDetailsInputScreen></BookingDetailsInputScreen>
         </View>
     );
 }

@@ -1,58 +1,103 @@
 import React, { Component } from 'react';
-import { Text, StyleSheet, View, TextInput, Image } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import { useState, useEffect } from 'react';
+import {
+    Text,
+    StyleSheet,
+    View,
+    Modal,
+    TextInput,
+    SafeAreaView,
+    Alert,
+    FlatList,
+    TouchableOpacity
+} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import COLORS from '../../conts/colors';
+import AirportListData from '../../data/airports';
+import AirportView from './ViewsFlatList/AirportView';
 
-function FlightSearchScreen() {
+function FlightSearchScreen({ placeHolder, isVisible, backHandler }) {
     const styles = StyleSheet.create({
-        input: {
-            height: 40,
-            margin: 12,
-            borderWidth: 1,
-            borderRadius: 3,
-            padding: 10
-        },
-        inputFildWholeContainer: {
-            height: 50,
-            margin: 12,
+        taskBar: {
+            marginLeft: 10,
+            marginTop: 15,
             flexDirection: 'row',
-            borderWidth: 1,
-            borderRadius: 3
+            alignItems: 'center'
         },
-        inputVectorContainer: {
-            alignItems: 'center',
-            justifyContent: 'center',
-            flex: 1,
-            borderRightWidth: 1,
-            borderColor: 'lightgrey',
-            borderTopRightRadius: 3
+        searchInput: {
+            fontSize: 18
         },
-        inputTextFieldContainer: {
-            flex: 3
-        },
-        textInputField: {}
+        dividerLine: {
+            height: 0.4,
+            width: '100%',
+            marginTop: 15,
+            backgroundColor: 'lightgrey'
+        }
     });
 
-    const onChangeNumber = () => {};
+    const [search, setSearch] = useState('');
+
+    const [filteredDataSource, setFilteredDataSource] = useState(AirportListData);
+    const [masterDataSource, setMasterDataSource] = useState(AirportListData);
+
+    function onchangeTextInputListener(text) {
+        updateTextInputValue(text);
+    }
+
+    const searchFilterFunction = (text) => {
+        // Check if searched text is not blank
+        if (text) {
+            // Inserted text is not blank
+            // Filter the masterDataSource and update FilteredDataSource
+            const newData = masterDataSource.filter(function (item) {
+                // Applying filter for the inserted text in search bar
+                const itemData = item.name ? item.name.toUpperCase() : ''.toUpperCase();
+                const textData = text.toUpperCase();
+                return itemData.indexOf(textData) > -1;
+            });
+            setFilteredDataSource(newData);
+            setSearch(text);
+        } else {
+            // Inserted text is blank
+            // Update FilteredDataSource with masterDataSource
+            setFilteredDataSource(masterDataSource);
+            setSearch(text);
+        }
+    };
 
     return (
-        <View style={{ marginTop: 50 }}>
-            <Text style={{ fontSize: 50 }}> textInComponent </Text>
-            <TextInput
-                style={styles.input}
-                onChangeText={onChangeNumber}
-                placeholder="useless placeholder"
-                keyboardType="numeric"
-            />
+        <Modal visible={isVisible} animationType="slide">
+            <SafeAreaView>
+                <View style={{}}>
+                    <View style={styles.taskBar}>
+                        <TouchableOpacity onPress={backHandler}>
+                            <Icon
+                                name={'arrow-left'}
+                                style={{ color: COLORS.blue, fontSize: 25, marginRight: 10 }}
+                            ></Icon>
+                        </TouchableOpacity>
 
-            <View style={styles.inputFildWholeContainer}>
-                <View style={styles.inputVectorContainer}>
-                    <MaterialIcons name="flight-takeoff" size={24} color="black" />
+                        <TextInput
+                            placeholder={placeHolder}
+                            onChangeText={(text) => searchFilterFunction(text)}
+                            value={search}
+                            placeholderTextColor={COLORS.grey}
+                            autoFocus={true}
+                            style={styles.searchInput}
+                        ></TextInput>
+                    </View>
+                    <View style={styles.dividerLine}></View>
+
+                    <FlatList
+                        data={filteredDataSource}
+                        renderItem={({ item }) => (
+                            <AirportView nameAirport={item.name} countryAirport={item.country} />
+                        )}
+                        keyExtractor={(item) => item.id}
+                    />
                 </View>
-                <View style={styles.inputTextFieldContainer}>
-                    <TextInput style={styles.textInputField}></TextInput>
-                </View>
-            </View>
-        </View>
+            </SafeAreaView>
+        </Modal>
     );
 }
 
