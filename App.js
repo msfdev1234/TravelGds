@@ -13,7 +13,7 @@ export default function App() {
                 barStyle="dark-content"
                 translucent={true}
             />
-            <FlightSearchScreen></FlightSearchScreen>
+            <HomeScreen></HomeScreen>
         </View>
     );
 }
