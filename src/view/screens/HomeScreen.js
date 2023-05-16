@@ -14,8 +14,8 @@ function HomeScreen() {
             backgroundColor: 'orange'
         },
         topContainer: {
-            height: 250,
-            backgroundColor: '#202844',
+            height: 260,
+            backgroundColor: 'lightblue',
             justifyContent: 'center'
         },
         txt: {
@@ -25,17 +25,20 @@ function HomeScreen() {
             marginLeft: 12
         },
         logoContainer: {
-            flexDirection: 'row',
-            justifyContent: 'center',
-            bottom: 22,
-            alignItems: 'flex-start'
+            alignItems: 'center',
+            marginHorizontal: 50,
+            bottom: 25
+        },
+        imageLogo: {
+            width: '90%',
+            height: 90
         },
         btnsLayout: {
             borderWidth: 1,
             width: '90%',
             backgroundColor: 'white',
             position: 'absolute',
-            top: -80,
+            top: -90,
             borderColor: 'grey',
             borderRadius: 10
         },
@@ -137,8 +140,10 @@ function HomeScreen() {
                 <View style={{ backgroundColor: 'lightgray' }}>
                     <View style={styles.topContainer}>
                         <View style={styles.logoContainer}>
-                            <Fontisto name="holiday-village" size={36} color="yellow" />
-                            <Text style={styles.txt}>AfroAtlas</Text>
+                            <Image
+                                style={styles.imageLogo}
+                                source={require('../../../assets/images/logoo.png')}
+                            ></Image>
                         </View>
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
