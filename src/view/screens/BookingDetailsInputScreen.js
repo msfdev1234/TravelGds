@@ -18,7 +18,12 @@ import InputTextView from '../../components/InputTextView';
 import Loader from '../../components/Loader';
 import DateInput from '../../components/DateInput';
 import InputTravelersClass from '../../components/InputTravelersClass';
+
+import DatePicker from '../../modals/DatePickerCustom';
 import FlightSearchScreen from './FlightSearchScreen';
+
+import AirportListOrgData from '../../data/airportsOrg';
+import AirportListDestData from '../../data/airportsDest';
 
 function BookingDetailsInputScreen() {
     const [inputs, setInputs] = React.useState({
@@ -27,8 +32,18 @@ function BookingDetailsInputScreen() {
     });
     const [errors, setErrors] = React.useState({});
     const [loading, setLoading] = React.useState(false);
+
     const [isVisibleFlightSearch, setIsVisibleFLightSearch] = React.useState(false);
+    const [isVisibleDatePickerModal, setIsVisibleDatePickerModal] = React.useState(false);
+
     const [placeHolderFlightSearch, setPlaceHolderFlightSearch] = React.useState('');
+    const [flightData, setFlightData] = React.useState(AirportListOrgData);
+
+    const [departureAirport, setDepartureAirport] = React.useState('Flying from');
+    const [arrivalAirport, setArrivalAirport] = React.useState('Flying to');
+    const [departureDate, setDepartureDate] = React.useState('18 May');
+    const [noOfTravellers, setNoOfTravellers] = React.useState(1);
+    const [seatClass, setSeatClass] = React.useState('Economy');
 
     const validate = () => {
         Keyboard.dismiss();
@@ -62,19 +77,25 @@ function BookingDetailsInputScreen() {
         }, 3000);
     };
 
-    const handleOnchange = (text, input) => {
-        setInputs((prevState) => ({ ...prevState, [input]: text }));
-    };
-    const handleError = (error, input) => {
-        setErrors((prevState) => ({ ...prevState, [input]: error }));
-    };
+    function showDatePickerModal() {
+        setIsVisibleDatePickerModal(true);
+    }
+    function hideDatePickerModal() {
+        setIsVisibleDatePickerModal(false);
+    }
 
-    OnPressFlightOrg = () => {
+    onPressFlightOrg = () => {
+        setFlightData(AirportListOrgData);
         setIsVisibleFLightSearch(true);
         setPlaceHolderFlightSearch('Flying from');
     };
 
-    OnPressFlightDest = () => {
+    onPressFlightDest = () => {
+        setFlightData(
+            AirportListDestData.filter((item) => {
+                item === 'Mumbai(BOM - chhatrapati Shivaji Intl.)';
+            })
+        );
         setIsVisibleFLightSearch(true);
         setPlaceHolderFlightSearch('Flying to');
     };
@@ -91,36 +112,52 @@ function BookingDetailsInputScreen() {
                 <FlightSearchScreen
                     isVisible={isVisibleFlightSearch}
                     placeHolder={placeHolderFlightSearch}
+                    flightData={flightData}
                     backHandler={onFlightSearchBackHandler}
                 ></FlightSearchScreen>
+
+                <DatePicker
+                    isVisibleDatePickerModal={isVisibleDatePickerModal}
+                    hideDatePickerModal={hideDatePickerModal}
+                ></DatePicker>
+
                 <View style={{ marginVertical: 20 }}>
-                    <TouchableOpacity onPress={OnPressFlightOrg}>
+                    <TouchableOpacity onPress={onPressFlightOrg}>
                         <InputTextView
                             onChangeText={(text) => handleOnchange(text, 'email')}
                             iconName="airplane-takeoff"
                             placeholder="Flying from"
-                            value={'Flying from'}
+                            value={departureAirport}
                         />
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={OnPressFlightDest}>
+                    <TouchableOpacity onPress={onPressFlightDest}>
                         <InputTextView
                             onChangeText={(text) => handleOnchange(text, 'fullname')}
                             iconName="airplane-landing"
                             placeholder="Flying to"
-                            value={'Flying to'}
+                            value={arrivalAirport}
                         />
                     </TouchableOpacity>
-                    <DateInput iconName="calendar-month" />
+                    <TouchableOpacity onPress={showDatePickerModal}>
+                        <DateInput iconName="calendar-month" value={departureDate} />
+                    </TouchableOpacity>
+
                     <InputTravelersClass
                         iconName="account"
                         label="Travellers"
                         sampleInput="1 Traveller"
+                        value={
+                            noOfTravellers == 1
+                                ? noOfTravellers + ' Traveller'
+                                : noOfTravellers + ' Travellers'
+                        }
                     />
                     <InputTravelersClass
                         iconName="seat-recline-extra"
                         label="Preferred class"
                         sampleInput="Economy"
+                        value={seatClass}
                     />
                 </View>
             </ScrollView>

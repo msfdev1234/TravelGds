@@ -3,7 +3,7 @@ import { View, Text, TextInput, StyleSheet } from 'react-native';
 import COLORS from '../conts/colors';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const DateInput = ({ error, iconName, selectedDate }) => {
+const DateInput = ({ error, iconName, selectedDate , value}) => {
     const [isFocused, setIsFocused] = React.useState(false);
     const styles = StyleSheet.create({
         inputContainer: {
@@ -42,7 +42,7 @@ const DateInput = ({ error, iconName, selectedDate }) => {
                     }}
                 >
                     <Text style={styles.dateLabelText}>Select date</Text>
-                    <Text style={styles.dateValueText}>18 May, 2023</Text>
+                    <Text style={styles.dateValueText}>{value}</Text>
                 </View>
             );
         }

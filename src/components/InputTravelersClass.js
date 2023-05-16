@@ -4,7 +4,7 @@ import COLORS from '../conts/colors';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Button from './Button';
 
-const InputTravelersClass = ({ error, iconName, label, sampleInput }) => {
+const InputTravelersClass = ({ error, iconName, label, input, value }) => {
     const [isFocused, setIsFocused] = React.useState(false);
     const [countPassenger, setPassengerCount] = useState(1);
     const [passengerCountText, setPassengerCountText] = useState(countPassenger + ' traveler');
@@ -52,7 +52,7 @@ const InputTravelersClass = ({ error, iconName, label, sampleInput }) => {
                 }}
             >
                 <Text style={styles.dateLabelText}>{label}</Text>
-                <Text style={styles.dateValueText}>{sampleInput}</Text>
+                <Text style={styles.dateValueText}>{value}</Text>
             </View>
         );
     };

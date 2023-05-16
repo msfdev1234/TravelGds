@@ -3,7 +3,7 @@ import { Text, StyleSheet, View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import COLORS from '../../../conts/colors';
 
-function AirportView({ nameAirport, countryAirport, itemChoosenHandler }) {
+function AirportView({ nameAirport, countryAirport, itemChoosenHandler, item }) {
     const styles = StyleSheet.create({
         container: {
             flexDirection: 'row',
@@ -16,7 +16,7 @@ function AirportView({ nameAirport, countryAirport, itemChoosenHandler }) {
         }
     });
     return (
-        <TouchableOpacity onPress={itemChoosenHandler}>
+        <TouchableOpacity>
             <View style={styles.container}>
                 <Icon
                     name={'map-marker'}

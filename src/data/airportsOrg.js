@@ -1,4 +1,4 @@
-const AirportListData = [
+const AirportListOrgData = [
     {
         id: 0,
         name: 'Mumbai(BOM - chhatrapati Shivaji Intl.)',
@@ -31,4 +31,4 @@ const AirportListData = [
     }
 ];
 
-export default AirportListData;
+export default AirportListOrgData;

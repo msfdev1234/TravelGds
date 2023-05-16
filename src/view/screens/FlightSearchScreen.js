@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import COLORS from '../../conts/colors';
-import AirportListData from '../../data/airports';
+import AirportListData from '../../data/airportsOrg';
 import AirportView from './ViewsFlatList/AirportView';
 
 function FlightSearchScreen({ placeHolder, isVisible, backHandler }) {
